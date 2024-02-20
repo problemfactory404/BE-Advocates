@@ -16,13 +16,13 @@ const entities = [User];
       isGlobal: true
     }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Root@2024',
-      database: 'advocate_app',
-      entities: entities,
+      type: process.env.DB_TYPE as any,
+      host:process.env.DB_HOST,
+      port:parseInt(process.env.DB_PORT),
+      username:process.env.DB_USER,
+      password:process.env.DB_PASSWORD,
+      database:process.env.DB_NAME,
+      entities:entities,
       synchronize: true
     }),
     UsersModule,
