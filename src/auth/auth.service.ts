@@ -21,6 +21,7 @@ export class AuthService {
     private jwtService: JwtService,
     private httpResponse: HttpResponse,
   ) { }
+  
   async signIn(
     email: string,
     password: string
@@ -63,5 +64,9 @@ export class AuthService {
     const result = salt + '.' + hash.toString('hex');
     body.password = result;
     return await this.usersService.create(body);
+  }
+
+  signOut(userId: number) {
+    return this.usersService.signOut(userId);
   }
 }

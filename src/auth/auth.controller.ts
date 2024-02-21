@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Post } from '@nestjs/common'; import { SigninDto } from './dtos/signIn.dto';
 import { SignupDto } from './dtos/signUp.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
+import { SignOutDto } from './dtos/signOut.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,5 +20,10 @@ export class AuthController {
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
     return this.authService.signUp(body);
+  }
+
+  @Post('/signout')
+  signOut(@Body() body: SignOutDto) {
+    return this.authService.signOut(body.userId);
   }
 }

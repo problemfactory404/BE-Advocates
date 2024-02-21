@@ -3,7 +3,7 @@ import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HttpResponse } from 'src/httpResponse';
-import { USER_CREATED } from 'src/utils/constant';
+import { SIGN_OUT_SUCCESS, USER_CREATED } from 'src/utils/constant';
 import { SignupDto } from 'src/auth/dtos/signUp.dto';
 import { CreateUserDto } from './dtos/createUser.dto';
 
@@ -38,5 +38,14 @@ export class UsersService {
 
   async updateIsLoggedin(userId: number){
     await this.userRepository.update(userId,{isLoggedIn: true});
+  }
+
+  async signOut(userId: number) {
+    try {
+      this.userRepository.update(userId, { isLoggedIn: false });
+      return this.httpResponse.success({}, SIGN_OUT_SUCCESS);
+    } catch (error) {
+      return this.httpResponse.serverError({}, error.message);
+    }
   }
 }
