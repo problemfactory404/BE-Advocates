@@ -21,7 +21,7 @@ export class AuthService {
     private jwtService: JwtService,
     private httpResponse: HttpResponse,
   ) { }
-  
+
   async signIn(
     email: string,
     password: string
@@ -68,5 +68,28 @@ export class AuthService {
 
   signOut(userId: number) {
     return this.usersService.signOut(userId);
+  }
+
+  verifyOtp(phoneNumber: string, email: string, otp: string) {
+    // Verify phone OTP if phone number is provided; otherwise, verify email OTP
+    if (phoneNumber) {
+      return this.usersService.verifyPhoneOtp(phoneNumber, otp);
+    }
+    return this.usersService.verifyEmailOtp(email, otp);
+  }
+
+  async forgotPassword(phoneNumber: string, email: string) {
+    if (phoneNumber) {
+      let user = await this.usersService.findPhone(phoneNumber);
+      if (!user) {
+        return this.httpResponse.notFound({}, USER_NOT_FOUND);
+      }
+      return this.httpResponse.success({ id: user.id });
+    }
+    let user = await this.usersService.findEmail(email);
+    if (!user) {
+      return this.httpResponse.notFound({}, USER_NOT_FOUND);
+    }
+    return this.httpResponse.success({ id: user.id });
   }
 }

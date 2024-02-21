@@ -4,6 +4,8 @@ import { Post } from '@nestjs/common'; import { SigninDto } from './dtos/signIn.
 import { SignupDto } from './dtos/signUp.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { SignOutDto } from './dtos/signOut.dto';
+import { VerifyOtpDto } from './dtos/verifyOtp.dto';
+import { VerfiyAccountDto } from './dtos/verifyAccount.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,5 +27,15 @@ export class AuthController {
   @Post('/signout')
   signOut(@Body() body: SignOutDto) {
     return this.authService.signOut(body.userId);
+  }
+
+  @Post('/forgotPassword')
+  forgotPassword(@Body() body: VerfiyAccountDto) {
+    return this.authService.forgotPassword(body.phoneNumber, body.email);
+  }
+
+  @Post('/verifyOtp')
+  verifyOtp(@Body() body: VerifyOtpDto) {
+    return this.authService.verifyOtp(body.phoneNumber, body.email, body.otp);
   }
 }
