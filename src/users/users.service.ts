@@ -94,15 +94,10 @@ export class UsersService {
     });
   }
 
-  async resetPassword(id: number, oldPassword: string, newPassword: string) {
+  async resetPassword(id: number, newPassword: string) {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       return this.httpResponse.badRequest({}, USER_NOT_FOUND);
-    }
-    const [salt, storedHash] = user.password.split('.');
-    const hash = (await scrypt(oldPassword, salt, 32)) as Buffer;
-    if (storedHash !== hash.toString('hex')) {
-      return this.httpResponse.badRequest({}, USER_PASSWORD_INCORRECT);
     }
     const password = await encryptPassword(newPassword);
     this.userRepository.update(id, { password });

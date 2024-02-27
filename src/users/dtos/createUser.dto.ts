@@ -1,15 +1,8 @@
+import { Optional } from "@nestjs/common";
 import { Type } from "class-transformer";
-import { IsEmail, IsNotEmpty, IsString, ValidateNested } from "class-validator";
+import { IsBoolean, IsEmail, IsNotEmpty, IsString, ValidateNested } from "class-validator";
 
 export class CreateUserDto {
-    @IsString()
-    @IsNotEmpty()
-    name: string;
-
-    @IsString()
-    @IsNotEmpty()
-    phoneNumber: string;
-
     @IsEmail()
     @IsNotEmpty()
     email: string;
@@ -17,4 +10,34 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    phoneNumber: string;
+
+    @IsString()
+    @IsNotEmpty()
+    first_name: string;
+
+    @IsString()
+    // @IsNotEmpty()
+    last_name: string;
+
+    @IsString()
+    // @IsNotEmpty()
+    role: string;
+
+    @IsString()
+    // @IsNotEmpty()
+    address: string;
+
+    @Optional()
+    @IsString()
+    // @IsNotEmpty()
+    identity_no: string;
+
+    @Optional()
+    @IsString()
+    // @IsNotEmpty()
+    vehicle_no: string;
 }

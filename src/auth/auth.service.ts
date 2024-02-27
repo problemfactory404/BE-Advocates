@@ -7,16 +7,19 @@ import { Repository } from 'typeorm';
 import { promisify } from 'util';
 import { scrypt as _scrypt, randomBytes } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
-import { SIGN_IN_SUCCESS, USER_ALREADY_CREATED, USER_NOT_FOUND, USER_PASSWORD_INCORRECT } from 'src/utils/constant';
+import { PASSWORD_CHANGED, SIGN_IN_SUCCESS, USER_ALREADY_CREATED, USER_NOT_FOUND, USER_PASSWORD_INCORRECT } from 'src/utils/constant';
 import { SignupDto } from './dtos/signUp.dto';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import * as bcrypt from 'bcrypt';
+import { ChangePasswordDto } from './dtos/changePassword.dto';
+import { encryptPassword } from 'src/utils/encryptPassword';
 
 const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
     private usersService: UsersService,
     private jwtService: JwtService,
     private httpResponse: HttpResponse,
@@ -91,5 +94,15 @@ export class AuthService {
       return this.httpResponse.notFound({}, USER_NOT_FOUND);
     }
     return this.httpResponse.success({ id: user.id });
+  }
+
+  async changePassword(id: number, newPassword: string) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) {
+      return this.httpResponse.badRequest({}, USER_NOT_FOUND);
+    }
+    const password = await encryptPassword(newPassword);
+    this.userRepository.update(id, { password });
+    return this.httpResponse.success(user, PASSWORD_CHANGED);
   }
 }

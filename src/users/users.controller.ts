@@ -9,17 +9,16 @@ import { ResetPasswordDto } from './dtos/resetPassword.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Post()
-  // create(@Body() signUpDto:CreateUserDto){
-  //   console.log("DTO : ",signUpDto);
-  //   this.usersService.create(signUpDto);
-  // }
+  @Post()
+  create(@Body() signUpDto:CreateUserDto){
+    console.log("DTO : ",signUpDto);
+    this.usersService.create(signUpDto);
+  }
 
   @Patch('/reset-password/:id')
   resetPassword(@Param('id') id: number, @Body() body: ResetPasswordDto) {
     return this.usersService.resetPassword(
       id,
-      body.oldPassword,
       body.newPassword,
     );
   }

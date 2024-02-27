@@ -1,4 +1,4 @@
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Param, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Post } from '@nestjs/common'; import { SigninDto } from './dtos/signIn.dto';
 import { SignupDto } from './dtos/signUp.dto';
@@ -6,6 +6,7 @@ import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { SignOutDto } from './dtos/signOut.dto';
 import { VerifyOtpDto } from './dtos/verifyOtp.dto';
 import { VerfiyAccountDto } from './dtos/verifyAccount.dto';
+import { ChangePasswordDto } from './dtos/changePassword.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -37,5 +38,10 @@ export class AuthController {
   @Post('/verifyOtp')
   verifyOtp(@Body() body: VerifyOtpDto) {
     return this.authService.verifyOtp(body.phoneNumber, body.email, body.otp);
+  }
+
+  @Patch('/changePassword/:id')
+  changePassword(@Param('id') id: number,@Body() body: ChangePasswordDto) {
+    return this.authService.changePassword(id, body.newPassword);
   }
 }
