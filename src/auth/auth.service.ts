@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HttpResponse } from 'src/httpResponse';
-import { User } from 'src/users/users.entity';
+import { Users } from 'src/users/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { promisify } from 'util';
@@ -19,7 +19,7 @@ const scrypt = promisify(_scrypt);
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Users) private userRepository: Repository<Users>,
     private usersService: UsersService,
     private jwtService: JwtService,
     private httpResponse: HttpResponse,

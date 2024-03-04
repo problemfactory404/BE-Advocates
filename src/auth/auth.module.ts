@@ -7,11 +7,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { HttpResponse } from 'src/httpResponse';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/users.entity';
+import { Users } from 'src/users/users.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([Users]),
     UsersModule,
     JwtModule.register({
       global: true,

@@ -2,25 +2,35 @@ import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn, Updat
 import * as bcrypt from 'bcryptjs';
 import { IsNotEmpty } from "class-validator";
 
+export enum UserRole {
+    ADMIN = 'admin',
+    SUBADMIN = 'subadmin',
+    USER = 'user'
+}
+
 @Entity()
-export class User {
+export class Users {
     @PrimaryGeneratedColumn()
     id: number;
-    
+
     @Column()
     first_name: string;
 
     @Column()
     last_name: string;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     phoneNumber: string;
 
     @Column({ unique: true })
     email: string;
 
-    @Column()
-    role: string;
+    @Column({
+        type: 'enum',
+        enum: UserRole,
+        default: UserRole.SUBADMIN,
+    })
+    role?: string;
 
     @Column()
     address: string;
@@ -48,6 +58,9 @@ export class User {
     @Column()
     @IsNotEmpty()
     password: string
+
+    @Column({ default: '' })
+    status?: string;
     // @BeforeInsert()
     // async hashPassword() {
     //     this.password = await bcrypt.hash(this.password, 8);

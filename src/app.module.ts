@@ -5,10 +5,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Entity } from 'typeorm';
 import { UsersModule } from './users/users.module';
-import { User } from './users/users.entity';
+import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
 
-const entities = [User];
+const entities = [Users];
 
 @Module({
   imports: [
