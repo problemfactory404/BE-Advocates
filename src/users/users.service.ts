@@ -1,14 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Users } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HttpResponse } from 'src/httpResponse';
-import { OTP_NOT_VALID, OTP_VERIFY, PASSWORD_CHANGED, SIGN_OUT_SUCCESS, USER_CREATED, USER_NOT_FOUND, USER_PASSWORD_INCORRECT } from 'src/utils/constant';
+import { DELETE_SUCCESS, OTP_NOT_VALID, OTP_VERIFY, PASSWORD_CHANGED, SIGN_OUT_SUCCESS, UPDATE_SUCCESS, USER_CREATED, USER_NOT_FOUND, USER_PASSWORD_INCORRECT } from 'src/utils/constant';
 import { SignupDto } from 'src/auth/dtos/signUp.dto';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { encryptPassword } from 'src/utils/encryptPassword';
+import { UpdateUserDto } from './dtos/updateUser.dto';
 
 const scrypt = promisify(_scrypt);
 
@@ -98,5 +99,57 @@ export class UsersService {
     const password = await encryptPassword(newPassword);
     this.userRepository.update(id, { password });
     return this.httpResponse.success(user, PASSWORD_CHANGED);
+  }
+
+  async getAll(page: number, pageSize: number, orderBy: string, direction: string) {
+    try {
+      let order = {};
+      if(orderBy && direction){
+        order = { [orderBy]: direction };
+      }else{
+        order = { ["created_at"]: 'DESC' };
+      }
+      const userList = await this.userRepository.find({order});
+      const customerList = userList.filter(user => user.role === 'subadmin');
+      console.log("customerList : ",customerList);
+      // Apply pagination
+      const totalRecords = customerList.length;
+      const totalPages = Math.ceil(totalRecords / pageSize);
+      const startIndex = (page) * pageSize;
+      const endIndex = startIndex + pageSize;
+      console.log("totalRecords : ",totalRecords," ||  totalPages : ",totalPages," ||  startIndex : ",startIndex," ||  endIndex : ",endIndex);
+      const paginatedUserList = customerList.slice(startIndex, endIndex);
+      console.log("paginatedUserList : ",paginatedUserList);
+      return this.httpResponse.success({
+        users: paginatedUserList,
+        page,
+        pageSize,
+        totalRecords,
+        totalPages
+      }, "List Loaded Successfully");
+    } catch (error) {
+      return this.httpResponse.serverError({}, error.message);
+    }
+  }
+
+  async update(id: number, body: UpdateUserDto) {
+    try {
+      const user = await this.userRepository.update(id, body);
+      return this.httpResponse.success(user, UPDATE_SUCCESS);
+    } catch (error) {
+      return this.httpResponse.serverError({}, error.message);
+    }
+  }
+
+  async delete(id: number) {
+    try {
+      const result = await this.userRepository.delete(id);
+      if (result.affected === 0) {
+        return this.httpResponse.badRequest({}, USER_NOT_FOUND);
+      }
+      return this.httpResponse.success(null, DELETE_SUCCESS);
+    } catch (error) {
+      return this.httpResponse.serverError({}, error.message);
+    }
   }
 }

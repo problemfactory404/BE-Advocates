@@ -7,6 +7,7 @@ import { Entity } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
+import { CasesModule } from './cases/cases.module';
 
 const entities = [Users];
 
@@ -26,7 +27,8 @@ const entities = [Users];
       synchronize: true
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    CasesModule
   ],
   controllers: [AppController],
   providers: [AppService],
