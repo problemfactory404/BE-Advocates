@@ -1,6 +1,6 @@
 export const USER_CREATED = 'You account has been successfully created';
 export const USER_ALREADY_CREATED ='The email address has already been registered';
-export const USER_NOT_FOUND = 'The user could not be found';
+export const USER_NOT_FOUND = 'The USER could not be found';
 export const USER_PASSWORD_INCORRECT = 'You have entered an incorrect password';
 export const SIGN_IN_SUCCESS = 'Sign in successfully';
 export const SIGN_OUT_SUCCESS = 'Sign out successfully';
@@ -21,3 +21,8 @@ export const OTP_VERIFY = 'OTP verify successfully';
 export const PAGE_NOT_FOUND = 'Page not found';
 export const UPDATE_SUCCESS = 'Updated successfully';
 export const DELETE_SUCCESS = 'Deleted successfully';
+
+export const CASE_CREATED = 'Case has been successfully created';
+export const CASE_NOT_FOUND = 'The CASE could not be found';
+
+

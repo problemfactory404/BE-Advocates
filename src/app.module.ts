@@ -3,13 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Entity } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
 import { CasesModule } from './cases/cases.module';
+import { Cases } from './cases/cases.entity';
 
-const entities = [Users];
+const entities = ['**/*.entity.js'];
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ const entities = [Users];
     }),
     UsersModule,
     AuthModule,
-    CasesModule
+    CasesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

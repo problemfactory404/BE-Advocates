@@ -23,7 +23,6 @@ export class UsersService {
   //     const user=User.create(createUserDto);
   // }
 
-
   async create(body: CreateUserDto) {
     try {
       const user = this.userRepository.create(body);
