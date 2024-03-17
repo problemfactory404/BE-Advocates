@@ -42,15 +42,12 @@ export class CasesService {
         order = { ["created_at"]: 'DESC' };
       }
       const userList = await this.caseRepository.find({order});
-      console.log("customerList : ",userList);
       // Apply pagination
       const totalRecords = userList.length;
       const totalPages = Math.ceil(totalRecords / pageSize);
       const startIndex = (page) * pageSize;
       const endIndex = startIndex + pageSize;
-      console.log("totalRecords : ",totalRecords," ||  totalPages : ",totalPages," ||  startIndex : ",startIndex," ||  endIndex : ",endIndex);
       const paginatedUserList = userList.slice(startIndex, endIndex);
-      console.log("paginatedUserList : ",paginatedUserList);
       return this.httpResponse.success({
         users: paginatedUserList,
         page,

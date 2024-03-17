@@ -8,6 +8,7 @@ import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
 import { CasesModule } from './cases/cases.module';
 import { Cases } from './cases/cases.entity';
+import { CaseDetailsModule } from './case_details/case_details.module';
 
 const entities = ['**/*.entity.js'];
 
@@ -29,6 +30,7 @@ const entities = ['**/*.entity.js'];
     UsersModule,
     AuthModule,
     CasesModule,
+    CaseDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
