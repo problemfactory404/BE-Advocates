@@ -1,30 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Case_Details } from './case_details.entity';
+import { CASE_DATE_CREATED, CASE_NOT_FOUND, DELETE_SUCCESS, UPDATE_SUCCESS } from 'src/utils/constant';
 import { Repository } from 'typeorm';
+import { Case_Dates } from './case_dates.entity';
 import { HttpResponse } from 'src/httpResponse';
-import { CreateCaseDetailsDto } from './dtos/create_case_details.dto';
-import { CASE_CREATED, CASE_NOT_FOUND, DELETE_SUCCESS, UPDATE_SUCCESS } from 'src/utils/constant';
-import { UpdateCaseDetailsDto } from './dtos/update_case_details.dto';
+import { CreateCaseDatesDto } from './dtos/create_case_dates.dto';
+import { UpdateCaseDatesDto } from './dtos/update_case_dates.dto';
 
 @Injectable()
-export class CaseDetailsService {
+export class CaseDatesService {
     constructor(
-        @InjectRepository(Case_Details) private caseDetailsRepository: Repository<Case_Details>,
+        @InjectRepository(Case_Dates) private caseDetailsRepository: Repository<Case_Dates>,
         private httpResponse: HttpResponse,
       ) { }
     
-      async create(body: CreateCaseDetailsDto){
+      async create(body: CreateCaseDatesDto){
         try {
           const newCase = this.caseDetailsRepository.create(body);
           const caseInfo = await this.caseDetailsRepository.save(newCase);
-          return this.httpResponse.success(caseInfo, CASE_CREATED);
+          return this.httpResponse.success(caseInfo, CASE_DATE_CREATED);
         }catch (error) {
           return this.httpResponse.serverError({}, error.message);
         }
       }
     
-      async update(id: number, body: UpdateCaseDetailsDto) {
+      async update(id: number, body: UpdateCaseDatesDto) {
         try {
           const user = await this.caseDetailsRepository.update(id, body);
           return this.httpResponse.success(user, UPDATE_SUCCESS);
@@ -42,7 +42,6 @@ export class CaseDetailsService {
             order = { ["created_at"]: 'DESC' };
           }
           const userList = await this.caseDetailsRepository.find({order});
-          
           // Apply pagination
           const totalRecords = userList.length;
           const totalPages = Math.ceil(totalRecords / pageSize);
