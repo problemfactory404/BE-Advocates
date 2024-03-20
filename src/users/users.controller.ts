@@ -8,10 +8,10 @@ import { UpdateUserDto } from './dtos/updateUser.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
-  create(@Body() signUpDto:CreateUserDto){
+  create(@Body() signUpDto: CreateUserDto) {
     this.usersService.create(signUpDto);
   }
 
@@ -24,8 +24,8 @@ export class UsersController {
   }
 
   @Get()
-  getAll(@Query('page') page: number, @Query('pageSize') pageSize: number, @Query('orderBy') orderBy: string, @Query('direction') direction: string,){
-    return this.usersService.getAll(page,pageSize,orderBy,direction)
+  getAll(@Query('page') page: number, @Query('pageSize') pageSize: number, @Query('orderBy') orderBy: string, @Query('direction') direction: string,) {
+    return this.usersService.getAll(page, pageSize, orderBy, direction)
   }
 
   @Patch('/:id')
