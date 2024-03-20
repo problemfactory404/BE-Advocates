@@ -25,4 +25,8 @@ export const DELETE_SUCCESS = 'Deleted successfully';
 export const CASE_CREATED = 'Case has been successfully created';
 export const CASE_NOT_FOUND = 'The CASE could not be found';
 
+export const CASE_DATE_CREATED = 'Case Dates has been successfully created';
+export const CASE_DATE_NOT_FOUND = 'The CASE DATE could not be found';
 
+export const CLIENTS_CREATED = 'Clients has been successfully created';
+export const CLIENTS_NOT_FOUND = 'The CLIENT could not be found';

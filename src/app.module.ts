@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
 import { CasesModule } from './cases/cases.module';
-import { Cases } from './cases/cases.entity';
 import { CaseDetailsModule } from './case_details/case_details.module';
+import { CaseDatesModule } from './case_dates/case_dates.module';
+import { ClientsModule } from './clients/clients.module';
 
 const entities = ['**/*.entity.js'];
 
@@ -31,6 +31,8 @@ const entities = ['**/*.entity.js'];
     AuthModule,
     CasesModule,
     CaseDetailsModule,
+    CaseDatesModule,
+    ClientsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
